@@ -20,20 +20,26 @@ class ListContacts extends React.Component {
 
 
     render() {
+        const { query } = this.state;
+        const { contacts, onDeleteContact } = this.props;
+
+        const filteredContacts = query === ''
+            ? contacts
+            : contacts.filter(c => c.name.toLowerCase().includes(query.toLowerCase()));
+
         return (
             <div className='list-contacts'>
                 <div className='list-contacts-top'>
                     <input
                         className='search-contacts'
                         type='text'
-                        value={this.state.query}
+                        value={query}
                         onChange={event => this.userChangedQuery(event.target.value)}
                     />
                 </div>
-                {JSON.stringify(this.state)}
                 <div className='list-panel'>
                     <ol className='list'>{
-                        this.props.contacts.map(contact => (
+                        filteredContacts.map(contact => (
                             <li key={contact.id} className='contact-list-item'>
                                 <div className='contact-avatar'
                                      style={{backgroundImage: `url(${contact.avatarURL})`}}></div>
@@ -42,7 +48,7 @@ class ListContacts extends React.Component {
                                     <p>{contact.handle}</p>
                                 </div>
                                 <button className='contact-remove'
-                                        onClick={() => this.props.onDeleteContact(contact)}>Remove
+                                        onClick={() => onDeleteContact(contact)}>Remove
                                 </button>
                             </li>
                         ))
