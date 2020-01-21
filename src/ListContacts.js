@@ -14,7 +14,7 @@ class ListContacts extends React.Component {
 
     userChangedQuery(query) {
         this.setState(() => ({
-            query: query
+            query: query.trim()
         }))
     }
 
